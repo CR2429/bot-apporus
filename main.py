@@ -4,7 +4,18 @@ import discord
 contenu = ''
 with open('token.txt', 'r') as fichier:
     contenu = fichier.read()
-print(contenu)
+
+#log
+@client.event
+async def on_ready():
+    print("Le bot est prêt !")
+
+
+#commande
+@client.event
+async def on_message(message):
+    print(message)
+
 
 #run le bot
 intents = discord.Intents.default()
