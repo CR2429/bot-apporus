@@ -1,7 +1,11 @@
 import discord
 
-#recuper le token
+#propriete
 contenu = ''
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
+
+#recuper le token
 with open('token.txt', 'r') as fichier:
     contenu = fichier.read()
 
@@ -18,6 +22,4 @@ async def on_message(message):
 
 
 #run le bot
-intents = discord.Intents.default()
-client = discord.Client(intents=intents)
 client.run(contenu)
