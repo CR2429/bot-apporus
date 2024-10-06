@@ -2,24 +2,26 @@ import discord
 
 #propriete
 contenu = ''
+prefix = '!'
 intents = discord.Intents.default()
-client = discord.Client(intents=intents)
+intents.message_content = True
+bot = discord.Client(intents=intents)
 
 #recuper le token
 with open('token.txt', 'r') as fichier:
     contenu = fichier.read()
 
 #log
-@client.event
+@bot.event
 async def on_ready():
     print("Le bot est prêt !")
 
 
 #commande
-@client.event
-async def on_message(message):
-    print(message)
+@bot.event
+async def on_message(message: discord.Message):
+    print(message.content)
 
 
 #run le bot
-client.run(contenu)
+bot.run(contenu)
