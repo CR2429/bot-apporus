@@ -7,5 +7,6 @@ with open('token.txt', 'r') as fichier:
 print(contenu)
 
 #run le bot
-client = discord.Client()
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
 client.run(contenu)
