@@ -1,26 +1,26 @@
 import random
 
 async def run(ctx):
-    # Premier message
+    # Premier message pour savoir se qui se passe
     await ctx.respond(f"Utilisation de 1 000 000 pièces dans la roue de l'infortune pour <@{ctx.author.id}>")
 
-    # Random
+    # creation des chiffre random (lancer de 100d100)
     result = [random.randint(1, 100) for _ in range(100)]
     r = [result[i:i+10] for i in range(0, len(result), 10)]
 
-    # Écrire la réponse
+    # Écrire la réponse qui contient tout les chiffres obtenues
     message = "```\n"
     message += f"╔{'═'*36}╗\n"
     roue = "Roue de l'infortune"
     message += f"║ {roue:^34} ║\n"
     message += f"╟{'─'*36}╢\n"
-    
     for rr in r[0:]:
         formatted_row = " ".join(map(str, rr))
         message += f"║ {formatted_row:^34} ║\n"
     
     message += f"╚{'═'*36}╝\n```"
 
+    #envoyer message sur le serveur
     await ctx.send(message)
 
     #calculer les crystites generer
@@ -31,6 +31,7 @@ async def run(ctx):
     violette = 0
     rouge = 0
 
+    #regarder chaque chiffre et savoir se que cela fait
     for i in result:
         if i == 1:
             orange += 4
@@ -49,7 +50,7 @@ async def run(ctx):
         else:
             violette += 1
     
-    #message
+    #message a envoyer sur le serveur
     await ctx.send(
         f'**Vous avez recu ces cristytes :**\n'
         f' - {orange} crystite orange\n'

@@ -1,7 +1,7 @@
 import random
 
 async def run(ctx):
-    #chjoix du chiffre random
+    #choix du chiffre random
     result = random.randint(1,100)
 
     #message different celon le chiffre
@@ -76,4 +76,5 @@ async def run(ctx):
             '```'
         )
     
+    #envoyer le message sur le serveur
     await ctx.respond(message)
