@@ -58,6 +58,6 @@ async def run(ctx):
         f' - {vert} crystite verte\n'
         f' - {blanche} crystite blanche\n'
         f' - {violette} crystite violette (les crystites rouge son transphormer en violette)\n'
-        f' - aucune crystite rouge est genere, alice possede la pelle, hovars en a 7 non ouverte et anno en a 2 non ouverte\n'
+        f' - aucune crystite rouge est genere, alice possede la pelle et 2 rouge non ouvert, hovars en a 6 non ouverte et anno en a 1 non ouverte\n'
     )
 
