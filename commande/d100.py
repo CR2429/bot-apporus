@@ -1,6 +1,6 @@
 import random
 
-async def run(interraction):
+async def run(ctx):
     #chjoix du chiffre random
     result = random.randint(1,100)
 
@@ -76,4 +76,4 @@ async def run(interraction):
             '```'
         )
     
-    await interraction.response.send_message(message)
+    await ctx.respond(message)

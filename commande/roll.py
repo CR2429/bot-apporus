@@ -1,7 +1,7 @@
 import random
-import time
+import asyncio
 
-async def run(interaction, dice:str):
+async def run(ctx, dice:str):
     try:
         #separation des chiffres
         nombre_des, nombre_faces = map(int, dice.split('d'))
@@ -25,14 +25,15 @@ async def run(interaction, dice:str):
         
         #un ou plusieur message
         if len(reponse) <= 2000 : 
-            await interaction.response.send_message(reponse)
+            await ctx.respond(reponse)
         else :
+            await ctx.respond('Sa va prendre 5 seconde a cause de la taille du message')
+            await asyncio.sleep(5)
             parts = [reponse[i:i+2000] for i in range(0, len(reponse), 2000)]
-            await interaction.response.send_message(parts[0])
+            await ctx.send(parts[0])
             
             for part in parts[1:]:
-                time.sleep(1)
-                await interaction.followup.send(part)
+                await ctx.send(part)
 
     except ValueError:
-        await interaction.response.send_message(f"Hey c'est quoi ce dé: ``{dice}``. Tu vas me reecrire ta commande ||connard|| ")
+        await ctx.respond(f"Hey c'est quoi ce dé: ``{dice}``. Tu vas me reecrire ta commande ||connard|| ")

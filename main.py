@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from commande.d100 import run as d100
 from commande.roll import run as roll
+from commande.casino import run as casino
 
 #propriete
 contenu = ''
@@ -16,17 +17,20 @@ with open('token.txt', 'r') as fichier:
 
 #commande
 @bot.slash_command(name = "allo", description="Un simple Hello World!", GUILD_IDS=GUILD_IDS)
-async def allo(interaction):
-    await interaction.response.send_message("Hello World!")
+async def allo(ctx):
+    await ctx.respond("Hello World!")
 
 @bot.slash_command(name="d100", description="lance un 1d100", GUILD_IDS=GUILD_IDS)
-async def command_d100(interaction):
-    await d100(interaction)
+async def command_d100(ctx):
+    await d100(ctx)
 
 @bot.slash_command(name="r", description="Lance des des. Exemple : 25d100", GUILD_IDS=GUILD_IDS)
-async def command_roll(interaction, dice: str):
-    await roll(interaction,dice)
+async def command_roll(ctx, dice: str):
+    await roll(ctx,dice)
 
+@bot.slash_command(name='casino', description='amuse toi hovars', GUILD_IDS=GUILD_IDS)
+async def casino_command(ctx):
+    await casino(ctx)
 
 #log
 @bot.event
