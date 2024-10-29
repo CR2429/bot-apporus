@@ -48,7 +48,7 @@ async def run(ctx):
         elif 96 <= i <= 99:
             violette += 1
         else:
-            violette += 1
+            rouge += 1
     
     #message a envoyer sur le serveur
     await ctx.send(
@@ -57,7 +57,7 @@ async def run(ctx):
         f' - {bleu} crystite bleu\n'
         f' - {vert} crystite verte\n'
         f' - {blanche} crystite blanche\n'
-        f' - {violette} crystite violette (les crystites rouge son transphormer en violette)\n'
-        f' - aucune crystite rouge est genere, alice possede la pelle et 2 rouge non ouvert, hovars en a 6 non ouverte et anno en a 1 non ouverte\n'
+        f' - {violette} crystite violette\n'
+        f' - {rouge} crystite rouge\n'
     )
 
