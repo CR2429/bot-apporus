@@ -40,6 +40,7 @@ async def casino_command(ctx):
 #log pour savoir si le bot est en marche ou pas
 @bot.event
 async def on_ready():
+    await bot.change_presence(status=discord.Status.online,activity=discord.CustomActivity(name="lancer les des (PUTIN J'AI FAIT UN 100)", emoji='🎲'))
     print("Le bot est prêt !")
 
 #run le bot
