@@ -19,8 +19,8 @@ with open('token.txt', 'r') as fichier:
 #commande hello world
 @bot.slash_command(name = "allo", description="Un simple Hello World!", GUILD_IDS=GUILD_IDS)
 async def allo(ctx):
-    #await ctx.respond("Hello World!")
-    await casino(ctx)
+    await ctx.respond("Hello World!")
+    #await casino(ctx)
 
 #commande pour faire 1d100 rapidement
 @bot.slash_command(name="d100", description="lance un 1d100", GUILD_IDS=GUILD_IDS)
