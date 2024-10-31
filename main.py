@@ -3,6 +3,7 @@ from discord.ext import commands
 from commande.d100 import run as d100
 from commande.roll import run as roll
 from commande.casino import run as casino
+from commande.crystite import orange, bleu, blanc, vert
 
 #propriete
 contenu = ''
@@ -36,6 +37,98 @@ async def command_roll(ctx, dice: str):
 @bot.slash_command(name='casino', description='amuse toi hovars', GUILD_IDS=GUILD_IDS)
 async def casino_command(ctx):
     await casino(ctx)
+
+#commande pour ouvrir les crystites orange
+@bot.slash_command(name='crystite_orange', description='permet d\'ouvrir 1 ou plusieur crystite orange')
+async def crystite_orange_command(ctx, nombre: str):
+    try:
+        #recuperer le nombre
+        nombre = int(nombre)
+        if nombre <= 0:
+            raise ValueError
+
+        #recuperer la reponse necessaire
+        reponses = []
+        for i in range(nombre):
+            reponses.append(orange())
+
+        #Envoyer les reponses
+        await ctx.respond("Voici vos crystites :")
+        for reponse in reponses:
+            await ctx.send(reponse)
+
+    #ceci est un message d'erreur si on ecrit n'importe quoi
+    except ValueError:
+        await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
+
+#commande pour ouvrir les crystites bleu
+@bot.slash_command(name='crystite_bleu', description='permet d\'ouvrir 1 ou plusieur crystite bleu')
+async def crystite_bleu_command(ctx, nombre: str):
+    try:
+        #recuperer le nombre
+        nombre = int(nombre)
+        if nombre <= 0:
+            raise ValueError
+
+        #recuperer la reponse necessaire
+        reponses = []
+        for i in range(nombre):
+            reponses.append(bleu())
+
+        #Envoyer les reponses
+        await ctx.respond("Voici vos crystites :")
+        for reponse in reponses:
+            await ctx.send(reponse)
+
+    #ceci est un message d'erreur si on ecrit n'importe quoi
+    except ValueError:
+        await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
+
+#commande pour ouvrir les crystites vert
+@bot.slash_command(name='crystite_vert', description='permet d\'ouvrir 1 ou plusieur crystite vert')
+async def crystite_vert_command(ctx, nombre: str):
+    try:
+        #recuperer le nombre
+        nombre = int(nombre)
+        if nombre <= 0:
+            raise ValueError
+
+        #recuperer la reponse necessaire
+        reponses = []
+        for i in range(nombre):
+            reponses.append(vert())
+
+        #Envoyer les reponses
+        await ctx.respond("Voici vos crystites :")
+        for reponse in reponses:
+            await ctx.send(reponse)
+
+    #ceci est un message d'erreur si on ecrit n'importe quoi
+    except ValueError:
+        await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
+
+#commande pour ouvrir les crystites blanc
+@bot.slash_command(name='crystite_blanc', description='permet d\'ouvrir 1 ou plusieur crystite blanc')
+async def crystite_blanc_command(ctx, nombre: str):
+    try:
+        #recuperer le nombre
+        nombre = int(nombre)
+        if nombre <= 0:
+            raise ValueError
+
+        #recuperer la reponse necessaire
+        reponses = []
+        for i in range(nombre):
+            reponses.append(blanc())
+
+        #Envoyer les reponses
+        await ctx.respond("Voici vos crystites :")
+        for reponse in reponses:
+            await ctx.send(reponse)
+
+    #ceci est un message d'erreur si on ecrit n'importe quoi
+    except ValueError:
+        await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
 
 #log pour savoir si le bot est en marche ou pas
 @bot.event
