@@ -51,10 +51,12 @@ async def crystite_orange_command(ctx, nombre: str):
         reponses = []
         for i in range(nombre):
             reponses.append(orange())
+        reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
 
         #Envoyer les reponses
         await ctx.respond("Voici vos crystites :")
         for reponse in reponses:
+            reponse = '\n'.join(reponse)
             await ctx.send(reponse)
 
     #ceci est un message d'erreur si on ecrit n'importe quoi
@@ -74,10 +76,12 @@ async def crystite_bleu_command(ctx, nombre: str):
         reponses = []
         for i in range(nombre):
             reponses.append(bleu())
+        reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
 
         #Envoyer les reponses
         await ctx.respond("Voici vos crystites :")
         for reponse in reponses:
+            reponse = '\n'.join(reponse)
             await ctx.send(reponse)
 
     #ceci est un message d'erreur si on ecrit n'importe quoi
@@ -96,7 +100,9 @@ async def crystite_vert_command(ctx, nombre: str):
         #recuperer la reponse necessaire
         reponses = []
         for i in range(nombre):
+            reponse = '\n'.join(reponse)
             reponses.append(vert())
+        reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
 
         #Envoyer les reponses
         await ctx.respond("Voici vos crystites :")
@@ -120,10 +126,12 @@ async def crystite_blanc_command(ctx, nombre: str):
         reponses = []
         for i in range(nombre):
             reponses.append(blanc())
+        reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
 
         #Envoyer les reponses
         await ctx.respond("Voici vos crystites :")
         for reponse in reponses:
+            reponse = '\n'.join(reponse)
             await ctx.send(reponse)
 
     #ceci est un message d'erreur si on ecrit n'importe quoi
