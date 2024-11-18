@@ -1,5 +1,6 @@
 import random
 import json
+import commande.dice as dice
 
 async def run(ctx):
     # Premier message pour savoir se qui se passe
@@ -14,7 +15,7 @@ async def run(ctx):
     for i in range(100):
         resultat = dice.d100(json_data['d100'])
         result.append(resultat[0])
-        json_data = resultat[1]
+    json_data['d100'] = resultat[1]
     with open('data.json', 'w') as file:
         json.dump(json_data, file, indent=4)
     r = [result[i:i+10] for i in range(0, len(result), 10)]
