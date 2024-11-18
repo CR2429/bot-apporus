@@ -1,11 +1,22 @@
 import random
+import json
 
 async def run(ctx):
     # Premier message pour savoir se qui se passe
     await ctx.respond(f"Utilisation de 1 000 000 pièces dans la roue de l'infortune pour <@{ctx.author.id}>")
 
     # creation des chiffre random (lancer de 100d100)
-    result = [random.randint(1, 100) for _ in range(100)]
+    result = []
+    json_data = {}
+    resultat = []
+    with open("data.json", 'r') as file:
+        json_data = json.load(file)
+    for i in range(100):
+        resultat = dice.d100(json_data['d100'])
+        result.append(resultat[0])
+        json_data = resultat[1]
+    with open('data.json', 'w') as file:
+        json.dump(json_data, file, indent=4)
     r = [result[i:i+10] for i in range(0, len(result), 10)]
 
     # Écrire la réponse qui contient tout les chiffres obtenues
