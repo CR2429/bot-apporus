@@ -4,7 +4,7 @@ from commande.d100 import run as d100
 from commande.roll import run as roll
 from commande.casino import run as casino
 import json
-from commande.crystite import orange, bleu, vert, blanc
+from commande.crystite import orange, bleu, vert, blanc, bonus_zopu
 
 #propriete
 contenu = ''
@@ -12,6 +12,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 GUILD_IDS = [587086433970552840,1183006208869797898] #les ids de mon serveur et du serveur du JDR
+GUILD_ADMIN = [587086433970552840]
 
 #recuper le token
 with open('token.txt', 'r') as fichier:
@@ -40,7 +41,7 @@ def main():
         await casino(ctx)
 
     #commande pour ouvrir les crystites orange
-    @bot.slash_command(name='crystite_orange', description='permet d\'ouvrir 1 ou plusieur crystite orange')
+    @bot.slash_command(name='crystite_orange', description='permet d\'ouvrir 1 ou plusieur crystite orange', GUILD_IDS=GUILD_IDS)
     async def crystite_orange_command(ctx, nombre: str):
         try:
             #recuperer le nombre
@@ -66,7 +67,7 @@ def main():
 
 
     #commande pour ouvrir les crystites bleu
-    @bot.slash_command(name='crystite_bleu', description='permet d\'ouvrir 1 ou plusieur crystite bleu')
+    @bot.slash_command(name='crystite_bleu', description='permet d\'ouvrir 1 ou plusieur crystite bleu', GUILD_IDS=GUILD_IDS)
     async def crystite_bleu_command(ctx, nombre: str):
         try:
             #recuperer le nombre
@@ -91,7 +92,7 @@ def main():
             await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
 
     #commande pour ouvrir les crystites vert
-    @bot.slash_command(name='crystite_vert', description='permet d\'ouvrir 1 ou plusieur crystite vert')
+    @bot.slash_command(name='crystite_vert', description='permet d\'ouvrir 1 ou plusieur crystite vert', GUILD_IDS=GUILD_IDS)
     async def crystite_vert_command(ctx, nombre: str):
         try:
             #recuperer le nombre
@@ -116,7 +117,7 @@ def main():
             await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
 
     #commande pour ouvrir les crystites blanc
-    @bot.slash_command(name='crystite_blanc', description='permet d\'ouvrir 1 ou plusieur crystite blanc')
+    @bot.slash_command(name='crystite_blanc', description='permet d\'ouvrir 1 ou plusieur crystite blanc', GUILD_IDS=GUILD_IDS)
     async def crystite_blanc_command(ctx, nombre: str):
         try:
             #recuperer le nombre
@@ -140,8 +141,41 @@ def main():
         except ValueError:
             await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
 
+    #commande pour avoir des effets
+    @bot.slash_command(name='effet_zopu', description='Effet pour armes ou armures.', GUILD_IDS=GUILD_ADMIN)
+    async def effet_zopu_command(ctx, option: discord.Option(str, "Arme ou Armure?", choices=["Arme", "Armure"]), nombre: str):
+        try :
+            #recupere le nombre
+            nombre = int(nombre)
+            if nombre <= 0:
+                raise ValueError
+            if nombre > 30:
+                raise ValueError
+            
+
+            #executer la commande
+            reponse = ""
+            if option == "Arme":
+                reponse = '**Voici les differents effet pour tes armes :**\n'
+                for i in range(nombre):
+                    reponse += f' - L\'arme nº {i+1} a comme bonus : {bonus_zopu("A")}\n'
+
+            elif option == "Armure":
+                reponse = '**Voici les differents effet pour tes armures :**\n'
+                for i in range(nombre):
+                    reponse += f' - La piece d\'armure nº {i+1} a comme bonus : {bonus_zopu("B")}\n'
+
+            else: #nan mais faut vraiment etre cave si tu fait n'importe quoi
+                raise ValueError
+
+            #Envoyer la reponse
+            await ctx.respond(reponse)
+        except ValueError:
+            await ctx.respond(f"Je ne comprends pas se que tu me veux... Je suis pas ta pute donc ecrit ta commande correctement, putin... (j'ai une limite de 30 item a la fois)")
+            
+
     #kill bot
-    @bot.slash_command(name='kill', description='arreter le bot')
+    @bot.slash_command(name='kill', description='arreter le bot' , GUILD_IDS=GUILD_IDS)
     async def kill(ctx):
         if ctx.author.id == 537398938102398998:
             #kill
