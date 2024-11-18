@@ -101,8 +101,8 @@ def bleu():
     stat1 = adjust_stat_for_hybride(_5d80(), str_result)
     stat2 = f"+{_1d20()} {_1d4()}"
     stat3 = f"+{_1d10()} {_1d4()}" if random.randint(0, 1) else f"+{_1d10()} {_1d5()}"
-    bonus = ", bonus zopu :)" if random.randint(1, 100) == 1 else ""
-    return f" - {str_result} => Statistique principale : {stat1}, {stat2}, {stat3}{bonus}"
+    bonus = bonus(str_result[0]) if random.randint(1, 100) == 1 else ""
+    return f" - {str_result} => Statistique principale : {stat1}, {stat2}, {stat3} {bonus}"
 
 # Crystite Orange
 def orange():
@@ -111,9 +111,108 @@ def orange():
     stat2 = f"+{_1d30()} {_1d4()}"
     stat3 = f"+{_1d20()} {_1d4()}" if random.randint(0, 1) else f"+{_1d20()} {_1d5()}"
     stat4 = f"+{_1d10()} Exaltation"
-    bonus = ", bonus zopu :)" if random.randint(1, 100) <= 5 else ""
-    return f" - {str_result} => Statistique principale : {stat1}, {stat2}, {stat3}, {stat4}{bonus}"
+    bonus = bonus(str_result[0]) if random.randint(1, 100) <= 5 else ""
+    return f" - {str_result} => Statistique principale : {stat1}, {stat2}, {stat3}, {stat4} {bonus}"
 
 # Bonus zopu
 def bonus(type):
+    #valeur utile
     reroll = 1
+    listBonus = []
+    isArmure = true
+
+    if type == "A" : isArmure = False
+
+    #boucle de reroll
+    while reroll > 0:
+        result = random.randint(1,100)
+        
+        match result:
+            case 1 | 2 | 3 | 4 | 5:
+                #lancer un autre D
+                result2 = random.randint(1,3)
+
+                #ajouter le bon bonus
+                reroll -= 1
+                if result2 == 1 : listBonus.append("Suprême")
+                if result2 == 2 : listBonus.append("Indestructibilité")
+                if result2 == 3 : reroll += 2
+
+            case 6 | 7 | 8 | 9 | 10:
+                #lancer un autre D
+                result2 = random.randint(1,2)
+
+                #ajouter le bon bonus
+                reroll -= 1
+                if result2 == 1 : listBonus.append("Résistance")
+                if result2 == 2 : listBonus.append("Que de générosité")
+
+            case 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20:
+                #bonus
+                reroll -= 1
+                listBonus.append("Légèreté")
+
+            case 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30:
+                #bonus
+                reroll -= 1
+                listBonus.append("Econome")
+
+            case 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40:
+                #bonus
+                reroll -= 1
+                if (isArmure): listBonus.append("REPLI !!!")
+                if (not isArmure): listBonus.append("Fantôme")
+
+            case 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 60:
+                #heu... faut relancer a priorie
+                reroll -= 1
+                reroll += 1
+
+            case 61 | 62 | 63 | 64 | 65 | 66 | 67 | 68 | 69 | 70:
+                #bonus
+                reroll -= 1
+                if (isArmure): listBonus.append("Gruyère")
+                if (not isArmure): listBonus.append("I'm stuck Step-Monster")
+
+            case 71 | 72 | 73 | 74 | 75 | 76 | 77 | 78 | 79 | 80:
+                #bonus
+                reroll -= 1
+                listBonus.append("Rapiat")
+
+            case 81 | 82 | 83 | 84 | 85 | 86 | 87 | 88 | 89 | 90:
+                #bonus
+                reroll -= 1
+                listBonus.append("Lourdeur")
+
+            case 91 | 92 | 93 | 94 | 95:
+                #lancer un autre D
+                result2 = random.randint(1,2)
+
+                #ajouter le bon bonus
+                reroll -= 1
+                if result2 == 1 : listBonus.append("Fragilité")
+                if result2 == 2 : listBonus.append("Connard")
+
+            case 96 | 97 | 98 | 99 | 100:
+                #lancer un autre D
+                result2 = 0
+                if (isArmure): result2 = random.randint(1,2)
+                if (not isArmure): result2 = random.randint(1,3)
+
+                #ajouter le bon bonus
+                reroll -= 1
+                if result2 == 1 : listBonus.append("Inutile")
+                if result2 == 2 : listBonus.append("Maudit")
+                if result2 == 3 : listBonus.append("Machette ornithologique")
+
+    #formatage du string
+    reponse = "["
+    for i in range(len(listBonus)):
+        if i > 0: reponse += ", "
+        reponse += listBonus[i]
+    reponse += "]"
+
+    return reponse
+
+
+        
