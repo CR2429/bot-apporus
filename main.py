@@ -138,6 +138,26 @@ async def crystite_blanc_command(ctx, nombre: str):
     except ValueError:
         await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
 
+#kill bot
+@bot.slash_command(name='kill', description='arreter le bot')
+async def kill(ctx):
+    if ctx.author.id == 537398938102398998:
+        await ctx.respond("Le bot est kill")
+        await bot.close()
+        sys.exit()
+    else :
+        #insulte pour le pirate
+        await ctx.respond(":middle_finger: :middle_finger: :middle_finger:")
+
+        #message priver pour moi
+        owner = await bot.fetch_user(537398938102398998)
+        await owner.send(
+            f"🚨 Tentative non autorisée de tuer le bot !\n"
+            f"Utilisateur : {ctx.author} (ID: {ctx.author.id})\n"
+            f"Serveur : {ctx.guild.name} (ID: {ctx.guild.id})\n"
+        )
+
+
 #log pour savoir si le bot est en marche ou pas
 @bot.event
 async def on_ready():

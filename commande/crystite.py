@@ -113,3 +113,7 @@ def orange():
     stat4 = f"+{_1d10()} Exaltation"
     bonus = ", bonus zopu :)" if random.randint(1, 100) <= 5 else ""
     return f" - {str_result} => Statistique principale : {stat1}, {stat2}, {stat3}, {stat4}{bonus}"
+
+# Bonus zopu
+def bonus(type):
+    reroll = 1
