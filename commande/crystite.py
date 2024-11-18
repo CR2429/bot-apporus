@@ -101,7 +101,7 @@ def bleu():
     stat1 = adjust_stat_for_hybride(_5d80(), str_result)
     stat2 = f"+{_1d20()} {_1d4()}"
     stat3 = f"+{_1d10()} {_1d4()}" if random.randint(0, 1) else f"+{_1d10()} {_1d5()}"
-    bonus = bonus(str_result[0]) if random.randint(1, 100) == 1 else ""
+    bonus = bonus_zopu(str_result[0]) if random.randint(1, 100) == 1 else ""
     return f" - {str_result} => Statistique principale : {stat1}, {stat2}, {stat3} {bonus}"
 
 # Crystite Orange
@@ -111,15 +111,15 @@ def orange():
     stat2 = f"+{_1d30()} {_1d4()}"
     stat3 = f"+{_1d20()} {_1d4()}" if random.randint(0, 1) else f"+{_1d20()} {_1d5()}"
     stat4 = f"+{_1d10()} Exaltation"
-    bonus = bonus(str_result[0]) if random.randint(1, 100) <= 5 else ""
+    bonus = bonus_zopu(str_result[0]) if random.randint(1, 100) <= 5 else ""
     return f" - {str_result} => Statistique principale : {stat1}, {stat2}, {stat3}, {stat4} {bonus}"
 
 # Bonus zopu
-def bonus(type):
+def bonus_zopu(type):
     #valeur utile
     reroll = 1
     listBonus = []
-    isArmure = true
+    isArmure = True
 
     if type == "A" : isArmure = False
 
