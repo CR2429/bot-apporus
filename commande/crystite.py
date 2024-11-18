@@ -1,7 +1,8 @@
 import random
 import re
 import commande.dice as dice
-from main import json_data
+import json
+
 
 # Lancer de dés
 def _1d9(poids):
@@ -48,14 +49,14 @@ def _5d80(poids):
     return [result_final,result5[1]]
 
 def _8d100(poids):
-    result1 = dice.d80(poids)
-    result2 = dice.d80(result1[1])
-    result3 = dice.d80(result2[1])
-    result4 = dice.d80(result3[1])
-    result5 = dice.d80(result4[1])
-    result6 = dice.d80(result5[1])
-    result7 = dice.d80(result6[1])
-    result8 = dice.d80(result7[1])
+    result1 = dice.d100(poids)
+    result2 = dice.d100(result1[1])
+    result3 = dice.d100(result2[1])
+    result4 = dice.d100(result3[1])
+    result5 = dice.d100(result4[1])
+    result6 = dice.d100(result5[1])
+    result7 = dice.d100(result6[1])
+    result8 = dice.d100(result7[1])
     result_final = result1[0]+result2[0]+result3[0]+result4[0]+result5[0]+result6[0]+result7[0]+result8[0]
     return [result_final,result8[1]]
 
@@ -108,7 +109,7 @@ def adjust_stat_for_hybride(stat, str_result):
 
 # Crystite Blanche
 def blanc():
-    global json_data
+    json_data = open_json()
     #generer la crystite
     result1 = debut(json_data['d9'], json_data['d3'])
     result2 = _1d20(json_data['d20'])
@@ -121,12 +122,13 @@ def blanc():
     json_data['d20'] = result2[1]
 
     #return
+    save_json(json_data)
     return f" - {result1[0]} => Statistique principale : {stat1}"
 
 
 # Crystite Verte
 def vert():
-    global json_data
+    json_data = open_json()
     #generer la crystite
     result1 = debut(json_data['d9'], json_data['d3'])
     result2 = _3d30(json_data['d30'])
@@ -144,12 +146,13 @@ def vert():
     json_data['d4'] = result4[1]
     
     #return
+    save_json(json_data)
     return f" - {result1[0]} => Statistique principale : {stat1}, {stat2}"
 
 
 # Crystite Bleue
 def bleu():
-    global json_data
+    json_data = open_json()
     #generer la crystite
     result1 = debut(json_data['d9'], json_data['d3'])
     json_data['d3'] = result1[2]
@@ -180,11 +183,12 @@ def bleu():
     json_data['d5'] = result7[1]
 
     #return
+    save_json(json_data)
     return f" - {result1[0]} => Statistique principale : {stat1}, {stat2}, {stat3} {bonus}"
 
 # Crystite Orange
 def orange():
-    global json_data
+    json_data = open_json()
     #generer la crystite
     result1 = debut(json_data['d9'], json_data['d3'])
     json_data['d3'] = result1[2]
@@ -216,20 +220,13 @@ def orange():
     json_data['d5'] = result7[1]
     json_data['d10'] = result9[1]
 
-    #generer la crystite
-    result1 = debut(json_data['d9'], json_data['d3'])
-    stat1 = adjust_stat_for_hybride(_8d100(), result1[0])
-    stat2 = f"+{_1d30()} {_1d4()}"
-    stat3 = f"+{_1d20()} {_1d4()}" if random.randint(0, 1) else f"+{_1d20()} {_1d5()}"
-    stat4 = f"+{_1d10()} Exaltation"
-    bonus = bonus_zopu(result1[0][0]) if random.randint(1, 100) <= 5 else ""
-
+    save_json(json_data)
     return f" - {result1[0]} => Statistique principale : {stat1}, {stat2}, {stat3}, {stat4} {bonus}"
 
 
 # Bonus zopu
 def bonus_zopu(type):
-    global json_data
+    json_data = open_json()
     #valeur utile
     reroll = 1
     listBonus = []
@@ -340,8 +337,17 @@ def bonus_zopu(type):
         reponse += listBonus[i]
     reponse += "]"
 
+    save_json(json_data)
     return reponse
 
+#ouvrir le json
+def open_json():
+    with open("data.json", 'r') as file:
+        json_data = json.load(file)
+    return json_data
 
-
+#sauvegarder le json
+def save_json(json_data):
+    with open('data.json', 'w') as file:
+        json.dump(json_data, file, indent=4)
         

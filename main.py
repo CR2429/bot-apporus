@@ -4,28 +4,20 @@ from commande.d100 import run as d100
 from commande.roll import run as roll
 from commande.casino import run as casino
 import json
+from commande.crystite import orange, bleu, vert, blanc
 
 #propriete
 contenu = ''
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
-json_data = {}
 GUILD_IDS = [587086433970552840,1183006208869797898] #les ids de mon serveur et du serveur du JDR
 
 #recuper le token
 with open('token.txt', 'r') as fichier:
     contenu = fichier.read()
 
-#recuperer les donner JSON
-with open("data.json", 'r') as file:
-    json_data = json.load(file)
-
 def main():
-    #dernier importe
-    from commande.crystite import orange, bleu, vert, blanc
-
-
     #commande hello world
     @bot.slash_command(name = "allo", description="Un simple Hello World!", GUILD_IDS=GUILD_IDS)
     async def allo(ctx):
@@ -71,6 +63,7 @@ def main():
         #ceci est un message d'erreur si on ecrit n'importe quoi
         except ValueError:
             await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
+
 
     #commande pour ouvrir les crystites bleu
     @bot.slash_command(name='crystite_bleu', description='permet d\'ouvrir 1 ou plusieur crystite bleu')
@@ -151,10 +144,6 @@ def main():
     @bot.slash_command(name='kill', description='arreter le bot')
     async def kill(ctx):
         if ctx.author.id == 537398938102398998:
-            #sauvegarde
-            with open('data.json', 'w') as file:
-                json.dump(json_data, file, indent=4)
-
             #kill
             await ctx.respond("Le bot est kill")
             await bot.close()
