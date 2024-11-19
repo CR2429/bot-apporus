@@ -40,9 +40,8 @@ def main():
     async def casino_command(ctx):
         await casino(ctx)
 
-    #commande pour ouvrir les crystites orange
-    @bot.slash_command(name='crystite_orange', description='permet d\'ouvrir 1 ou plusieur crystite orange', GUILD_IDS=GUILD_IDS)
-    async def crystite_orange_command(ctx, nombre: str):
+    @bot.slash_command(name='crystite',description='Ouvrir les crystites',GUILD_IDS=GUILD_IDS)
+    async def crystite_command(ctx, couleur: discord.Option(str, "La couleur de la crystite", choices=["Blanc","Vert","Bleu","Orange"]), nombre:str):
         try:
             #recuperer le nombre
             nombre = int(nombre)
@@ -52,83 +51,16 @@ def main():
             #recuperer la reponse necessaire
             reponses = []
             for i in range(nombre):
-                reponses.append(orange())
-            reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
 
-            #Envoyer les reponses
-            await ctx.respond("Voici vos crystites :")
-            for reponse in reponses:
-                reponse = '\n'.join(reponse)
-                await ctx.send(reponse)
+                if (couleur == "Blanc"):
+                    reponses.append(blanc())
+                if (couleur == "Vert"):
+                    reponses.append(vert())
+                if (couleur == "Bleu"):
+                    reponses.append(bleu())
+                if (couleur == "Orange"):
+                    reponses.append(orange())
 
-        #ceci est un message d'erreur si on ecrit n'importe quoi
-        except ValueError:
-            await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
-
-
-    #commande pour ouvrir les crystites bleu
-    @bot.slash_command(name='crystite_bleu', description='permet d\'ouvrir 1 ou plusieur crystite bleu', GUILD_IDS=GUILD_IDS)
-    async def crystite_bleu_command(ctx, nombre: str):
-        try:
-            #recuperer le nombre
-            nombre = int(nombre)
-            if nombre <= 0:
-                raise ValueError
-
-            #recuperer la reponse necessaire
-            reponses = []
-            for i in range(nombre):
-                reponses.append(bleu())
-            reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
-
-            #Envoyer les reponses
-            await ctx.respond("Voici vos crystites :")
-            for reponse in reponses:
-                reponse = '\n'.join(reponse)
-                await ctx.send(reponse)
-
-        #ceci est un message d'erreur si on ecrit n'importe quoi
-        except ValueError:
-            await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
-
-    #commande pour ouvrir les crystites vert
-    @bot.slash_command(name='crystite_vert', description='permet d\'ouvrir 1 ou plusieur crystite vert', GUILD_IDS=GUILD_IDS)
-    async def crystite_vert_command(ctx, nombre: str):
-        try:
-            #recuperer le nombre
-            nombre = int(nombre)
-            if nombre <= 0:
-                raise ValueError
-
-            #recuperer la reponse necessaire
-            reponses = []
-            for i in range(nombre):
-                reponses.append(vert())
-            reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
-
-            #Envoyer les reponses
-            await ctx.respond("Voici vos crystites :")
-            for reponse in reponses:
-                reponse = '\n'.join(reponse)
-                await ctx.send(reponse)
-
-        #ceci est un message d'erreur si on ecrit n'importe quoi
-        except ValueError:
-            await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
-
-    #commande pour ouvrir les crystites blanc
-    @bot.slash_command(name='crystite_blanc', description='permet d\'ouvrir 1 ou plusieur crystite blanc', GUILD_IDS=GUILD_IDS)
-    async def crystite_blanc_command(ctx, nombre: str):
-        try:
-            #recuperer le nombre
-            nombre = int(nombre)
-            if nombre <= 0:
-                raise ValueError
-
-            #recuperer la reponse necessaire
-            reponses = []
-            for i in range(nombre):
-                reponses.append(blanc())
             reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
 
             #Envoyer les reponses
@@ -142,7 +74,7 @@ def main():
             await ctx.respond(f"Heu tu te moque de moi? ``{nombre}`` n")
 
     #commande pour avoir des effets
-    @bot.slash_command(name='effet_zopu', description='Effet pour armes ou armures.', GUILD_IDS=GUILD_ADMIN)
+    @bot.slash_command(name='effet_zopu', description='Effet pour armes ou armures.', GUILD_IDS=GUILD_IDS)
     async def effet_zopu_command(ctx, option: discord.Option(str, "Arme ou Armure?", choices=["Arme", "Armure"]), nombre: str):
         try :
             #recupere le nombre
