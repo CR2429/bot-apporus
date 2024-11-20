@@ -4,7 +4,7 @@ from commande.d100 import run as d100
 from commande.roll import run as roll
 from commande.casino import run as casino
 import json
-from commande.crystite import orange, bleu, vert, blanc, bonus_zopu
+from commande.crystite import orange, bleu, vert, blanc, bonus_zopu, big_orange
 
 #propriete
 contenu = ''
@@ -105,6 +105,10 @@ def main():
         except ValueError:
             await ctx.respond(f"Je ne comprends pas se que tu me veux... Je suis pas ta pute donc ecrit ta commande correctement, putin... (j'ai une limite de 30 item a la fois)")
             
+    #commande pour les grosse crystite orange
+    @bot.slash_command(name="big_crystite", description='commandew pour ouvrir les grosses crystites', GUILDS_IDS=GUILD_IDS)
+    async def big_crystite_command(ctx):
+        await ctx.respond(big_orange())
 
     #kill bot
     @bot.slash_command(name='kill', description='arreter le bot' , GUILD_IDS=GUILD_IDS)

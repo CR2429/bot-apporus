@@ -8,16 +8,10 @@ async def run(ctx):
 
     # creation des chiffre random (lancer de 100d100)
     result = []
-    json_data = {}
     resultat = []
-    with open("data.json", 'r') as file:
-        json_data = json.load(file)
     for i in range(100):
-        resultat = dice.d100(json_data['d100'])
-        result.append(resultat[0])
-    json_data['d100'] = resultat[1]
-    with open('data.json', 'w') as file:
-        json.dump(json_data, file, indent=4)
+        resultat = dice.d100()
+        result.append(resultat)
     r = [result[i:i+10] for i in range(0, len(result), 10)]
 
     # Écrire la réponse qui contient tout les chiffres obtenues
