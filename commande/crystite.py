@@ -176,7 +176,7 @@ def orange():
     if (random.randint(0, 1)): stat3 += f"{result6}"
     else: stat3 += f"{result7}"
     stat4 = f"+{result9} Exaltation"
-    if (result8 == 1):
+    if (result8 <= 5):
         bonus = bonus_zopu(result1[0])
     else: bonus = ""
 
