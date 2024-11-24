@@ -3,31 +3,31 @@ import time
 import numpy as np
 
 def d2():
-    return np.random.randint(1, 3)
+    return random.randint(1,2)
 
 def d3():
-    return np.random.randint(1, 4)
+    return random.randint(1,3)
 
 def d4():
-    return np.random.randint(1, 5)
+    return random.randint(1,4)
 
 def d5():
-    return np.random.randint(1, 6)
+    return random.randint(1,5)
 
 def d9():
-    return np.random.randint(1, 10)
+    return random.randint(1,9)
 
 def d10():
-    return np.random.randint(1, 11)
+    return random.randint(1,10)
 
 def d20():
-    return np.random.randint(1, 21)
+    return random.randint(1,20)
 
 def d30():
-    return np.random.randint(1, 31)
+    return random.randint(1,30)
 
 def d80():
-    return np.random.randint(1, 81)
+    return random.randint(1,80)
 
 def d100():
-    return np.random.randint(1, 101)
+    return random.randint(1,100)
