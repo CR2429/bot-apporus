@@ -288,7 +288,7 @@ def bonus_zopu(type):
 
     #Je fait juste un test pour voir si le blouclier a un bonus d'armure
     if type == "Bouclier" :
-        for i in range(len(listBonus))
+        for i in range(len(listBonus)):
             if listBonus[i] == "I'm stuck Step-Monster":
                 if (random.randint(0, 1)): listBonus[i] = "Gruyère"
             if listBonus[i] == "Fantôme":
@@ -308,7 +308,7 @@ def bonus_zopu(type):
 def big_orange():
     #generer la crystite
     typeArmure = _1d3()
-    typeArme = dice.d4()
+    typeArme = dice.d5()
     statsPrincipale = _8d100()
     statsElementaire = _1d30()
     typeElement = _1d4()
@@ -319,17 +319,21 @@ def big_orange():
     else :
         typeSecondaire = _1d5()
     statsExaltation = _1d10()
-    BonusZopu = bonus_zopu("A")
+    
 
     #changer le type Arme pour la bonne chose
     if (typeArme == 1):
-        typeArme == "Arme 1 main tranchante"
+        typeArme = "Arme 1 main tranchante"
     if (typeArme == 2):
-        typeArme == "Arme 1 main contondante"
+        typeArme = "Arme 1 main contondante"
     if (typeArme == 3):
-        typeArme == "Arme 2 main tranchante"
+        typeArme = "Arme 2 main tranchante"
     if (typeArme == 4):
-        typeArme == "Arme 2 main contondante"
+        typeArme = "Arme 2 main contondante"
+    if (typeArme == 5):
+        typeArme = "Bouclier"
+
+    BonusZopu = bonus_zopu(typeArme)
 
     #changer le bonus zopu
     BonusZopuArmure = []
@@ -362,6 +366,7 @@ def big_orange():
         f"\nVous avez un set d'armure complete avec une arme"
         f"\n- Stat de l'armure: {IsHybride} {typeArmure}"
         f"\n- Bonus de l'armure : {BonusZopuArmure}"
+        f"\n- Type d'arme obtenu: {typeArme}"
         f"\n- Stat de l'arme: {statsPrincipale}"
         f"\n- Bonus de l'arme: {BonusZopu}"
         f"\n- Stat Elementaire 1: {statsElementaire} {typeElement}"
