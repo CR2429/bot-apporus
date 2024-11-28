@@ -5,6 +5,7 @@ from commande.roll import run as roll
 from commande.casino import run as casino
 import json
 from commande.crystite import orange, bleu, vert, blanc, bonus_zopu, big_orange
+from bouton import Bouton
 
 #propriete
 contenu = ''
@@ -134,8 +135,20 @@ def main():
     #log pour savoir si le bot est en marche ou pas
     @bot.event
     async def on_ready():
-        await bot.change_presence(status=discord.Status.online,activity=discord.CustomActivity(name="lancer les des (PUTIN J'AI FAIT UN 100)", emoji='🎲'))
-        print("Le bot est prêt !")
+        try:
+            # Obtenir le canal cible
+            target_channel = bot.get_channel(1292275976973062254)
+            if target_channel:
+                # Créer la vue avec le bouton
+                view = Bouton(bot)
+                await target_channel.send("Si c'est pas un test appuye sur le bouton pour dire que le bot est en vie.", view=view)
+            else:
+                print(f"Erreur : Canal {1292275976973062254} introuvable.")
+            
+            # Log
+            print("Le bot est prêt !")
+        except Exception as e:
+            print(f"Erreur lors de l'envoi du message de démarrage : {e}")
 
     #run le bot
     bot.run(contenu)
