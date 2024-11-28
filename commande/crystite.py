@@ -191,6 +191,8 @@ def bonus_zopu(type):
     listBonus = []
     isArmure = True
 
+    if type == "Bouclier" :
+        isArmure = False
     if type == "A":
         isArmure = False
 
@@ -283,6 +285,14 @@ def bonus_zopu(type):
     #retrait bonus en cas de maudit
     if "Maudit" in listBonus:
         listBonus = ["Maudit"]
+
+    #Je fait juste un test pour voir si le blouclier a un bonus d'armure
+    if type == "Bouclier" :
+        for i in range(len(listBonus))
+            if listBonus[i] == "I'm stuck Step-Monster":
+                if (random.randint(0, 1)): listBonus[i] = "Gruyère"
+            if listBonus[i] == "Fantôme":
+                if (random.randint(0, 1)): listBonus[i] = "REPLI !!!"
 
     #formatage du string
     reponse = "["
