@@ -8,7 +8,7 @@ class Bouton(View):
 
         # Ajouter un bouton à la vue
         self.bot = bot
-        self.add_item(Button(label="Cliquez ici", style=discord.ButtonStyle.primary))
+        self.add_item(Button(label="Cliquez la", style=discord.ButtonStyle.primary))
 
     @discord.ui.button(label="Cliquez ici", style=discord.ButtonStyle.primary)
     async def button_click(self, button: Button, interaction: discord.Interaction):

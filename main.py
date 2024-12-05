@@ -6,6 +6,8 @@ from commande.casino import run as casino
 import json
 from commande.crystite import orange, bleu, vert, blanc, bonus_zopu, big_orange
 from bouton import Bouton
+from commande.element import ElementDropdown as element
+import sys
 
 #propriete
 contenu = ''
@@ -14,6 +16,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 GUILD_IDS = [587086433970552840,1183006208869797898] #les ids de mon serveur et du serveur du JDR
 GUILD_ADMIN = [587086433970552840]
+
 
 #recuper le token
 with open('token.txt', 'r') as fichier:
@@ -110,6 +113,12 @@ def main():
     @bot.slash_command(name="big_crystite", description='commandew pour ouvrir les grosses crystites', GUILDS_IDS=GUILD_IDS)
     async def big_crystite_command(ctx):
         await ctx.respond(big_orange())
+        
+    #commande pour les elements
+    @bot.slash_command(name="element", description="Donne le niveau de l'element avec sa valeur de degats", GUILD_IDS=GUILD_ADMIN)
+    async def element_command(ctx):
+        view = element()
+        await ctx.send("Choissir une element dans la liste: ", view=view)
 
     #kill bot
     @bot.slash_command(name='kill', description='arreter le bot' , GUILD_IDS=GUILD_IDS)
