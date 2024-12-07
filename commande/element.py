@@ -161,7 +161,7 @@ class ElementDropdown(discord.ui.View):
         for e in data["elements"]:
             if e["name"] == element_name:
                 element_lvl = e["level"]
-                if e["level"] > 23:
+                if e["level"] > 33:
                     element_dice = "A definir par zopu"
                 else:
                     element_dice = data["levels"][f"{e['level']}"]
