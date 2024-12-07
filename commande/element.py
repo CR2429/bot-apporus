@@ -53,7 +53,7 @@ data = {
     {"name": "Explosion MK2", "level": 16},
     {"name": "Malveillance fongique", "level": 20, "description":"Origine de l'enfant avorter de 8 mois d'Alice"},
     {"name": "Fer raffiné", "level": 22},
-    {"name": "Amant", "level": 24},
+    {"name": "Aimant", "level": 24},
     {"name": "Béton armé", "level": 27},
     {"name": "Acier", "level": 24},
     {"name": "Acier galvanisé", "level": 29, "description":"Liam a emmenager dans un appartement de 1,5m²"},
@@ -63,6 +63,7 @@ data = {
     {"name": "Dynamique métallique", "level": 54},
     {"name": "Mamamia", "level":64, "description": "Attention, risque de destruction d'un biome possible"},
     {"name": "Patate", "level":1, "description": "Element qui est le plus mortel"},
+    {"name": "Roche sableuse", "level":6}
   ],
   "levels": {
     "1": "1d10",
@@ -96,7 +97,7 @@ ElementList = sorted(["Feu","Eau","Vent","Terre","Eau déminéralisée","Mamamia
     "Magna","Végétation","Sable chaud","Verre","Lumière bioluminescente","Roche","Liquide réfrigérant","Inquendance","Tornade ardente","Tempête",
     "Herbe sèche","Proto stase","Croissance","Béton","Spore malveillant","Plexiglas","Quartz","Zéro absolu","Mousse électrique","Calcination","Typhon",
     "Brume épaisse","Pluie acide","Explosion MK1","Bombe fumigène","Champignon malveillant","Minerai de fer","Brume aveuglante","Explosion MK2",
-    "Malveillance fongique","Fer raffiné","Amant","Béton armé","Acier","Acier galvanisé","Universalis","Explosion MK3","Ferraille","Dynamique métallique"
+    "Malveillance fongique","Fer raffiné","Aimant","Béton armé","Acier","Acier galvanisé","Universalis","Explosion MK3","Ferraille","Dynamique métallique","Roche sableuse"
 ])
         
 class ElementDropdown(discord.ui.View):
