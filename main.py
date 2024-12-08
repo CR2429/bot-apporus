@@ -3,7 +3,6 @@ from discord.ext import commands
 from commande.d100 import run as d100
 from commande.roll import run as roll
 from commande.casino import run as casino
-import json
 from commande.crystite import orange, bleu, vert, blanc, bonus_zopu, big_orange
 from bouton import Bouton
 from commande.element import ElementDropdown as element
@@ -118,7 +117,7 @@ def main():
     @bot.slash_command(name="element", description="Donne le niveau de l'element avec sa valeur de degats", GUILD_IDS=GUILD_ADMIN)
     async def element_command(ctx):
         view = element()
-        await ctx.send("Choissir une element dans la liste: ", view=view)
+        await ctx.send(f"{view.edit_message()}", view=view)
 
     #kill bot
     @bot.slash_command(name='kill', description='arreter le bot' , GUILD_IDS=GUILD_IDS)

@@ -2,11 +2,16 @@ import discord
 from discord.ext import commands
 import mysql.connector
 import textwrap  # Pour gérer les descriptions multi-lignes
+import locale
+import asyncio
 
 # Récupérer le mot de passe
 motdepasse = ""
 with open('passwordSQL.txt', 'r') as fichier:
     motdepasse = fichier.read().strip()
+    
+# Définir la locale pour le tri insensible aux accents (en français par exemple)
+locale.setlocale(locale.LC_COLLATE, 'fr_FR.UTF-8')
 
 
 class ElementDropdown(discord.ui.View):
@@ -15,31 +20,41 @@ class ElementDropdown(discord.ui.View):
         self.ElementList = []
         self.elements = []
         self.levels = {}
+        connection = None
         
         # Connexion à la base de données
         try:
+            print("Connexion a la base de donne")
             connection = mysql.connector.connect(
-                host='langitia.com',
-                port=90,
+                host='localhost',
+                port=3306,
                 user='apporus',
                 password=motdepasse,
                 database='apporus'
             )
+            print("connection reussite")
+            
             with connection.cursor() as cursor:
                 # Charger les éléments
                 cursor.execute("SELECT name, level, description FROM elements")
                 rows = cursor.fetchall()
+                print(f"{len(rows)} éléments récupérés.")
                 
                 self.elements = [{'name': row[0], 'level': row[1], 'description': row[2]} for row in rows]
-                self.ElementList = [row['name'] for row in self.elements]
+                self.ElementList = sorted([row['name'] for row in self.elements], key=locale.strxfrm)
+                print(f"{len(self.ElementList)} éléments ajoutés à la liste.")
                 
                 # Charger les niveaux
                 cursor.execute("SELECT level, roll_pattern FROM levels")
                 self.levels = {str(level): roll_pattern for level, roll_pattern in cursor.fetchall()}
+                print(f"{len(self.levels)} niveaux récupérés.")
         except mysql.connector.Error as err:
             print(f"Erreur MySQL : {err}")
         finally:
-            connection.close()
+            if connection:
+                connection.close()
+                print("Connexion à la base de données fermée.")
+            
 
         self.current_page = 0
         self.total_pages = (len(self.ElementList) - 1) // 25 + 1
@@ -50,9 +65,20 @@ class ElementDropdown(discord.ui.View):
         end = start + 25
         return self.ElementList[start:end]
 
+    def edit_message(self):
+        #savoir les elements a afficher
+        page_elements = self.get_current_page_options()
+        first_element = page_elements[0] if page_elements else "N/A"
+        last_element = page_elements[-1] if page_elements else "N/A"
+        
+        #message
+        update_message = f"Choisisser un élément dans la liste : {first_element} à {last_element}"
+        
+        return update_message
+    
     async def refresh_view(self, interaction: discord.Interaction):
         self.update_components()
-        await interaction.response.edit_message(view=self)
+        await interaction.response.edit_message(content = self.edit_message(), view=self)
 
     def update_components(self):
         self.clear_items()
@@ -76,6 +102,7 @@ class ElementDropdown(discord.ui.View):
             next_button = discord.ui.Button(label="Suivant", style=discord.ButtonStyle.primary, row=1)
             next_button.callback = self.next_page
             self.add_item(next_button)
+            
 
     async def select_callback(self, interaction: discord.Interaction):
         element = interaction.data.get("values", [None])[0]
@@ -96,16 +123,16 @@ class ElementDropdown(discord.ui.View):
         # Formatage du message
         max_width = 36
         message = f"```╔{'═' * max_width}╗\n"
-        message += f"║ {element.center(max_width)} ║\n"
+        message += f"║ {element.center(max_width - 2)} ║\n"
         message += f"╟{'─' * max_width}╢\n"
         message += f"║ Niveau : {element_lvl:<{max_width - 10}}║\n"
-        message += f"║ Jet de dés : {element_dice:<{max_width - 13}}║\n"
+        message += f"║ Jet de dés : {element_dice:<{max_width - 14}}║\n"
 
         if element_description:
             message += f"╟{'─' * max_width}╢\n"
-            wrapped_description = textwrap.wrap(element_description, max_width)
+            wrapped_description = textwrap.wrap(element_description, max_width - 2)
             for line in wrapped_description:
-                message += f"║ {line.ljust(max_width)} ║\n"
+                message += f"║ {line.ljust(max_width - 2)} ║\n"
 
         message += f"╚{'═' * max_width}╝```"
 
