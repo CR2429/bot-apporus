@@ -3,4 +3,5 @@ token.txt
 myid.txt
 commande/__pycache__
 commande/crystite/__pycache__
-__pycache__/bouton.cpython-312.pyc
+__pycache__
+.env
