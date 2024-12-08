@@ -34,20 +34,24 @@ class ElementDropdown(discord.ui.View):
             )
             print("connection reussite")
             
-            with connection.cursor() as cursor:
+            # Utilisation explicite du curseur
+            cursor = connection.cursor()
+            try:
                 # Charger les éléments
                 cursor.execute("SELECT name, level, description FROM elements")
                 rows = cursor.fetchall()
                 print(f"{len(rows)} éléments récupérés.")
-                
+
                 self.elements = [{'name': row[0], 'level': row[1], 'description': row[2]} for row in rows]
                 self.ElementList = sorted([row['name'] for row in self.elements], key=locale.strxfrm)
                 print(f"{len(self.ElementList)} éléments ajoutés à la liste.")
-                
+
                 # Charger les niveaux
                 cursor.execute("SELECT level, roll_pattern FROM levels")
                 self.levels = {str(level): roll_pattern for level, roll_pattern in cursor.fetchall()}
                 print(f"{len(self.levels)} niveaux récupérés.")
+            finally:
+                cursor.close()
         except mysql.connector.Error as err:
             print(f"Erreur MySQL : {err}")
         finally:
