@@ -1,33 +1,55 @@
-import random
-import json
+from datetime import datetime
+import textwrap
+import time
+import discord
 import commande.dice as dice
+import os
 
-async def run(ctx):
+async def run(ctx,taille):
     # Premier message pour savoir se qui se passe
-    await ctx.respond(f"Utilisation de 1 000 000 pièces dans la roue de l'infortune pour <@{ctx.author.id}>")
+    pieces = 10000*taille
+    formatted_pieces = "{:,}".format(pieces).replace(",", " ")
+    await ctx.respond(f"Utilisation de {formatted_pieces} pièces dans la roue de l'infortune pour <@{ctx.author.id}>")
 
+    #reglage de la taille
+    width = 0
+    match taille:
+        case 100:
+            width = 36
+        case 1000:
+            width = 65
+        case 10000:
+            width = 100
+    width2 = width-2
+    
     # creation des chiffre random (lancer de 100d100)
-    result = []
-    resultat = []
-    for i in range(100):
+    result_str = ""
+    result_int = []
+    for i in range(taille):
         resultat = dice.d100()
-        result.append(resultat)
-    r = [result[i:i+10] for i in range(0, len(result), 10)]
+        result_int.append(resultat)
+        result_str += f"{resultat} "
 
     # Écrire la réponse qui contient tout les chiffres obtenues
-    message = "```\n"
-    message += f"╔{'═'*36}╗\n"
+    message = f"╔{'═'*width}╗\n"
     roue = "Roue de l'infortune"
-    message += f"║ {roue:^34} ║\n"
-    message += f"╟{'─'*36}╢\n"
-    for rr in r[0:]:
-        formatted_row = " ".join(map(str, rr))
-        message += f"║ {formatted_row:^34} ║\n"
+    message += f"║ {roue:^{width2}} ║\n"
+    message += f"╟{'─'*width}╢\n"
     
-    message += f"╚{'═'*36}╝\n```"
+    wrapped = textwrap.wrap(result_str, width2)
+    for line in wrapped:
+        message += f"║ {line.ljust(width2)} ║\n"
+    
+    message += f"╚{'═'*width}╝\n"
 
-    #envoyer message sur le serveur
-    await ctx.send(message)
+    #creer un fichier
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+    file_path = f"casino_{timestamp}.txt"
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write(message)
+    
+    #envoyer le fichier
+    await ctx.send(file=discord.File(file_path))
 
     #calculer les crystites generer
     orange = 0
@@ -38,7 +60,7 @@ async def run(ctx):
     rouge = 0
 
     #regarder chaque chiffre et savoir se que cela fait
-    for i in result:
+    for i in result_int:
         if i == 1:
             orange += 4
         elif 2 <= i <= 5:
@@ -66,4 +88,7 @@ async def run(ctx):
         f' - {violette} crystite violette\n'
         f' - {rouge} crystite rouge\n'
     )
-
+    
+    #suppression du fichier apres quelque secondes (au cas ou sa prendr du temps a envoyer le fichier)
+    time.sleep(10)
+    os.remove(file_path)

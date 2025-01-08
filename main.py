@@ -40,8 +40,8 @@ def main():
 
     #commande pour la roue de l'infortune
     @bot.slash_command(name='casino', description='amuse toi hovars', GUILD_IDS=GUILD_IDS)
-    async def casino_command(ctx):
-        await casino(ctx)
+    async def casino_command(ctx, taille: discord.Option(int, "nombre de crystite a generer", choices=[100,1000,10000])):
+        await casino(ctx,taille)
 
     @bot.slash_command(name='crystite',description='Ouvrir les crystites',GUILD_IDS=GUILD_IDS)
     async def crystite_command(ctx, couleur: discord.Option(str, "La couleur de la crystite", choices=["Blanc","Vert","Bleu","Orange"]), nombre:str):
