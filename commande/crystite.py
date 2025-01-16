@@ -90,17 +90,17 @@ def _1d5():
 def debut():
     result1 = _1d9()
     result2 = _1d3()
-    final = result1
+    final = [result1,result2]
 
     # Vérifie si l'équipement est une armure
-    armure = final in ["Bouclier", "Casque", "Plastron", "Jambière", "Brassard"]
-    if armure:
-        final += " - " + result2
+    armure = final[0] in ["Bouclier", "Casque", "Plastron", "Jambière", "Brassard"]
+    if armure == False:
+        final[1] = ""
     return final
 
 # Fonction générique pour le calcul de la statistique hybride
 def adjust_stat_for_hybride(stat, str_result):
-    if re.search(r'Hybride$', str_result):
+    if str_result[1] == "Hybride":
         if stat % 2 == 1:
             stat += 1
         stat //= 2
@@ -115,7 +115,7 @@ def blanc():
     stat1 = adjust_stat_for_hybride(stat1, typeEquipement)
 
     #return
-    return f" - {typeEquipement} => Statistique principale : {stat1}"
+    return [typeEquipement[0],"Blanc",typeEquipement[1],stat1,"","","","","",""]
 
 # Crystite Verte
 def vert():
@@ -124,12 +124,10 @@ def vert():
     Stat1 = _3d30()
     Stat2 = _1d10()
     Element = _1d4()
-
     stat1 = adjust_stat_for_hybride(Stat1, TypeEquipement)
-    stat2 = f"+{Stat2} {Element}"
     
     #return
-    return f" - {TypeEquipement} => Statistique principale : {stat1}, {stat2}"
+    return [TypeEquipement[0],"Vert",TypeEquipement[1],stat1,Stat2,Element,"","","",""]
 
 
 # Crystite Bleue
@@ -145,16 +143,15 @@ def bleu():
     result8 = dice.d100()
 
     stat1 = adjust_stat_for_hybride(result2, result1)
-    stat2 = f"+{result3} {result5}"
-    stat3 = f"+{result4} "
-    if (random.randint(0, 1)): stat3 += f"{result6}"
-    else: stat3 += f"{result7}"
+    stat3 = ""
+    if (random.randint(0, 1)): stat3 = f"{result6}"
+    else: stat3 = f"{result7}"
     if (result8 == 1):
         bonus = bonus_zopu(result1[0])
     else: bonus = ""
 
     #return
-    return f" - {result1} => Statistique principale : {stat1}, {stat2}, {stat3} {bonus}"
+    return [result1[0],"Bleu",result1[1],stat1,result3,result5,result4,stat3,"",bonus]
 
 # Crystite Orange
 def orange():
@@ -170,18 +167,16 @@ def orange():
     result9 = dice.d10()
 
     stat1 = adjust_stat_for_hybride(result2, result1)
-    stat2 = f"+{result3} {result5}"
-    stat3 = f"+{result4} "
+    stat3 = ""
 
-    if (random.randint(0, 1)): stat3 += f"{result6}"
-    else: stat3 += f"{result7}"
-    stat4 = f"+{result9} Exaltation"
+    if (random.randint(0, 1)): stat3 = f"{result6}"
+    else: stat3 = f"{result7}"
     if (result8 <= 5):
         bonus = bonus_zopu(result1[0])
     else: bonus = ""
 
     #return
-    return f" - {result1} => Statistique principale : {stat1}, {stat2}, {stat3}, {stat4} {bonus}"
+    return [result1[0],"Orange",result1[1],stat1,result3,result5,result4,stat3,result9,bonus]
 
 
 # Bonus zopu
@@ -193,7 +188,7 @@ def bonus_zopu(type):
 
     if type == "Bouclier" :
         isArmure = False
-    if type == "A":
+    if type[0] == "A":
         isArmure = False
 
     #boucle de reroll

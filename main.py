@@ -1,6 +1,4 @@
-from datetime import datetime
-import os
-import time
+from result_crystite import run as result_crystite
 import discord
 from discord.ext import commands
 from commande.d100 import run as d100
@@ -53,33 +51,40 @@ def main():
             nombre = int(nombre)
             if nombre <= 0:
                 raise ValueError
-
-            #recuperer la reponse necessaire
-            reponses = ""
-            for i in range(nombre):
-
-                if (couleur == "Blanc"):
-                    reponses = reponses + "\n" + blanc()
-                if (couleur == "Vert"):
-                    reponses = reponses + "\n" + vert()
-                if (couleur == "Bleu"):
-                    reponses = reponses + "\n" + bleu()
-                if (couleur == "Orange"):
-                    reponses = reponses + "\n" + orange()
-
             #Envoyer les reponses
             await ctx.respond("Voici vos crystites :")
             
-            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
-            file_path = f"crystite_{timestamp}.txt"
-            with open(file_path, "w", encoding="utf-8") as file:
-                file.write(reponses)
-            #envoyer le fichier
-            await ctx.send(file=discord.File(file_path))
+            #execute la bonne methode
+            resultat = {
+                "Type":[],
+                "Couleur":[],
+                "Armure":[],
+                "Stats principale":[],
+                "Valeur stat 2":[],
+                "Type stat 2":[],
+                "Valeur stat 3":[],
+                "Type stat 3":[],
+                "Exaltation":[],
+                "Bonus": []
+            }
             
-            #suppression du fichier apres quelque secondes (au cas ou sa prendr du temps a envoyer le fichier)
-            time.sleep(10)
-            os.remove(file_path)
+            for i in range(nombre):
+                liste = []
+                if (couleur == "Blanc"):
+                    liste = blanc()
+                if (couleur == "Vert"):
+                    liste = vert()
+                if (couleur == "Bleu"):
+                    liste = bleu()
+                if (couleur == "Orange"):
+                    liste = orange()
+                
+                for cle, valeur in zip(resultat.keys(), liste):
+                    resultat[cle].append(valeur)
+                
+            #envoyer le fichier
+            result_crystite(ctx,resultat)
+
 
         #ceci est un message d'erreur si on ecrit n'importe quoi
         except ValueError:
