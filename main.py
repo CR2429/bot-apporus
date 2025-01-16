@@ -83,7 +83,7 @@ def main():
                     resultat[cle].append(valeur)
                 
             #envoyer le fichier
-            result_crystite(ctx,resultat)
+            await result_crystite(ctx,resultat)
 
 
         #ceci est un message d'erreur si on ecrit n'importe quoi

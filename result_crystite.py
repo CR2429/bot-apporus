@@ -6,24 +6,10 @@ import discord
 import pandas as pd
 
 
-async def run(ctx,dictionnaire) : 
-    dictionnaire =  {
-                "Type":[],
-                "Couleur":[],
-                "Armure":[],
-                "Stats principale":[],
-                "Valeur stat 2":[],
-                "Type stat 2":[],
-                "Valeur stat 3":[],
-                "Type stat 3":[],
-                "Exaltation":[],
-                "Bonus": []
-            }
-    
-    
+async def run(ctx,dictionnaire) :  
     # utiliser la bonne methode celon l'utilisateur
-    if ctx.author.id == 537398938102398998 :
-        hovars(ctx,dictionnaire)
+    if ctx.author.id == 308569466340376576 :
+        await hovars(ctx,dictionnaire)
     else :
         message = ""
         iterrence = dictionnaire["Type"].len()
@@ -81,8 +67,9 @@ async def hovars(ctx, dictionnaire) :
         "exaltation" : [],
         "enchantement" : []
     }
+    index = len(dictionnaire["Type"])
     
-    for i in range(dictionnaire["Type"]):
+    for i in range(index):
         #element
         Type = dictionnaire["Type"][i]
         Armure = dictionnaire["Armure"][i]
@@ -101,11 +88,11 @@ async def hovars(ctx, dictionnaire) :
             if (Type == "Arme 1 main tranchante"):
                 data_arme["Armes"].append("1mt")
             if (Type == "Arme 2 main tranchante"):
-                data_arme["Armes"].append("1mt")
+                data_arme["Armes"].append("2mt")
             if (Type == "Arme 1 main contondante"):
-                data_arme["Armes"].append("1mt")
+                data_arme["Armes"].append("1mc")
             if (Type == "Arme 2 main contondante"):
-                data_arme["Armes"].append("1mt")
+                data_arme["Armes"].append("2mc")
                 
             #ajout facile a faire
             data_arme["Rarete"].append(Couleur)
@@ -171,7 +158,7 @@ async def hovars(ctx, dictionnaire) :
             if eau:
                 data_arme["affinités eau"].append("")
             if feu:
-                data_arme["affinités feu"].append("")
+                data_arme["affinité feu"].append("")
             if vent:
                 data_arme["affinités vent"].append("")
             if autre:
@@ -253,7 +240,7 @@ async def hovars(ctx, dictionnaire) :
             if eau:
                 data_armure["affinités eau"].append("")
             if feu:
-                data_armure["affinités feu"].append("")
+                data_armure["affinité feu"].append("")
             if vent:
                 data_armure["affinités vent"].append("")
             if autre:
@@ -262,6 +249,10 @@ async def hovars(ctx, dictionnaire) :
     #transphormer en fichier
     df1 = pd.DataFrame(data_arme)
     df2 = pd.DataFrame(data_armure)
+    
+    # Tri des DataFrames par la première colonne (Armes ou Armure)
+    df1 = df1.sort_values(by="Armes", ascending=True)
+    df2 = df2.sort_values(by="Armure", ascending=True)
     
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
     file_path = f"cristite_{timestamp}.xlsx"
