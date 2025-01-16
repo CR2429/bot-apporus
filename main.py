@@ -1,3 +1,6 @@
+from datetime import datetime
+import os
+import time
 import discord
 from discord.ext import commands
 from commande.d100 import run as d100
@@ -52,25 +55,31 @@ def main():
                 raise ValueError
 
             #recuperer la reponse necessaire
-            reponses = []
+            reponses = ""
             for i in range(nombre):
 
                 if (couleur == "Blanc"):
-                    reponses.append(blanc())
+                    reponses = reponses + "\n" + blanc()
                 if (couleur == "Vert"):
-                    reponses.append(vert())
+                    reponses = reponses + "\n" + vert()
                 if (couleur == "Bleu"):
-                    reponses.append(bleu())
+                    reponses = reponses + "\n" + bleu()
                 if (couleur == "Orange"):
-                    reponses.append(orange())
-
-            reponses = [reponses[i:i+10] for i in range(0, len(reponses), 10)]
+                    reponses = reponses + "\n" + orange()
 
             #Envoyer les reponses
             await ctx.respond("Voici vos crystites :")
-            for reponse in reponses:
-                reponse = '\n'.join(reponse)
-                await ctx.send(reponse)
+            
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+            file_path = f"crystite_{timestamp}.txt"
+            with open(file_path, "w", encoding="utf-8") as file:
+                file.write(reponses)
+            #envoyer le fichier
+            await ctx.send(file=discord.File(file_path))
+            
+            #suppression du fichier apres quelque secondes (au cas ou sa prendr du temps a envoyer le fichier)
+            time.sleep(10)
+            os.remove(file_path)
 
         #ceci est un message d'erreur si on ecrit n'importe quoi
         except ValueError:
