@@ -1,9 +1,7 @@
 import discord
-from discord.ext import commands
 import mysql.connector
 import textwrap  # Pour gérer les descriptions multi-lignes
 import locale
-import asyncio
 
 # Récupérer le mot de passe
 motdepasse = ""

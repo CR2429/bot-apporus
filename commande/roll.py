@@ -1,5 +1,6 @@
 import random
 import asyncio
+from commande.dice import d100 
 
 async def run(ctx, dice:str):
     try:
@@ -17,9 +18,13 @@ async def run(ctx, dice:str):
         #lancer de des
         rolls = []
         for _ in range(nombre_des):
-            r = random.randint(1,nombre_faces)
-            print(f"resultat: {r} jet numero : {_}")
-            rolls.append(r)
+            #executer le bon type de des
+            if (nombre_faces == 100):
+                rolls.append(d100(ctx))
+            else:
+                r = random.randint(1,nombre_faces)
+                print(f"resultat: {r} jet numero : {_}")
+                rolls.append(r)
         total = sum(rolls)
 
         #creation du mesage de reponse

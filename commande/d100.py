@@ -1,10 +1,8 @@
-import random
-import json
 import commande.dice as dice
 
 async def run(ctx):
     #choix du chiffre random
-    result = dice.d100()
+    result = dice.d100(ctx)
 
     #message different celon le chiffre
     if result == 1:

@@ -1,3 +1,4 @@
+import re
 from result_crystite import run as result_crystite
 import discord
 from discord.ext import commands
@@ -5,6 +6,7 @@ from commande.d100 import run as d100
 from commande.roll import run as roll
 from commande.casino import run as casino
 from commande.crystite import orange, bleu, vert, blanc, bonus_zopu, big_orange
+from commande.stats100 import analyze_d100
 from bouton import Bouton
 from commande.element import ElementDropdown as element
 import sys
@@ -12,10 +14,13 @@ import sys
 #propriete
 contenu = ''
 intents = discord.Intents.default()
+intents.typing = True
+intents.messages = True
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 GUILD_IDS = [587086433970552840,1183006208869797898] #les ids de mon serveur et du serveur du JDR
 GUILD_ADMIN = [587086433970552840]
+CHANNEL_BOT = [1292275976973062254,1183006208869797901]
 
 
 #recuper le token
@@ -128,10 +133,39 @@ def main():
         await ctx.respond(big_orange())
         
     #commande pour les elements
-    @bot.slash_command(name="element", description="Donne le niveau de l'element avec sa valeur de degats", GUILD_IDS=GUILD_ADMIN)
+    @bot.slash_command(name="element", description="Donne le niveau de l'element avec sa valeur de degats", GUILD_IDS=GUILD_IDS)
     async def element_command(ctx):
         view = element()
         await ctx.send(f"{view.edit_message()}", view=view)
+
+    @bot.slash_command(name="d100_stats", description="Permet de connaitre les informations sur les lancer d'un utilisateur", GUILD_IDS=GUILD_IDS)
+    async def d100_stats_command(ctx,user:discord.Member = None):
+        if (user != None):
+            await analyze_d100(user.id,ctx)
+        else:
+            await analyze_d100(ctx.author.id,ctx)
+            
+    
+    # Fonction pour extraire les résultats des lancers de d100
+    @bot.event
+    async def on_message(message):
+        # Vérifie si le message provient d'un des canaux surveillés
+        if message.channel.id in CHANNEL_BOT:
+            # Cherche une ligne qui commence par "║      d100"
+            if 'd100' in message.content:  # Vérifie que le jet est un d100
+                match = re.search(r'║\s*rolls\s*│\s*(.*?)\s*║', message.content)
+                if match:
+                    rolls_str = match.group(1).strip()  # Extrait la ligne des résultats
+                    rolls = list(map(int, rolls_str.split()))  # Convertit la chaîne en une liste d'entiers
+                    print(f"Résultats du lancer de d100 : {rolls}")
+                    # Fais ce que tu veux avec les résultats, par exemple les analyser
+                    await message.channel.send(f"Les résultats du d100 sont : {rolls}")
+            else:
+                print("Le message ne concerne pas un jet de d100.")
+                print(message)
+            
+            await bot.process_commands(message)
+
 
     #kill bot
     @bot.slash_command(name='kill', description='arreter le bot' , GUILD_IDS=GUILD_IDS)
