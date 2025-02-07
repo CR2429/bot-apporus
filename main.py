@@ -138,7 +138,7 @@ def main():
         view = element()
         await ctx.send(f"{view.edit_message()}", view=view)
 
-    @bot.slash_command(name="d100_stats", description="Permet de connaitre les informations sur les lancer d'un utilisateur", GUILD_IDS=GUILD_IDS)
+    @bot.slash_command(name="stats", description="Permet de connaitre les informations sur les lancer d'un utilisateur", GUILD_IDS=GUILD_IDS)
     async def d100_stats_command(ctx,user:discord.Member = None):
         if (user != None):
             await analyze_d100(user.id,ctx)
