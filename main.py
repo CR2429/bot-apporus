@@ -144,28 +144,6 @@ def main():
             await analyze_d100(user.id,ctx)
         else:
             await analyze_d100(ctx.author.id,ctx)
-            
-    
-    # Fonction pour extraire les résultats des lancers de d100
-    @bot.event
-    async def on_message(message):
-        # Vérifie si le message provient d'un des canaux surveillés
-        if message.channel.id in CHANNEL_BOT:
-            # Cherche une ligne qui commence par "║      d100"
-            if 'd100' in message.content:  # Vérifie que le jet est un d100
-                match = re.search(r'║\s*rolls\s*│\s*(.*?)\s*║', message.content)
-                if match:
-                    rolls_str = match.group(1).strip()  # Extrait la ligne des résultats
-                    rolls = list(map(int, rolls_str.split()))  # Convertit la chaîne en une liste d'entiers
-                    print(f"Résultats du lancer de d100 : {rolls}")
-                    # Fais ce que tu veux avec les résultats, par exemple les analyser
-                    await message.channel.send(f"Les résultats du d100 sont : {rolls}")
-            else:
-                print("Le message ne concerne pas un jet de d100.")
-                print(message)
-            
-            await bot.process_commands(message)
-
 
     #kill bot
     @bot.slash_command(name='kill', description='arreter le bot' , GUILD_IDS=GUILD_IDS)
