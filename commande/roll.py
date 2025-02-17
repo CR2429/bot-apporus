@@ -11,7 +11,7 @@ async def run(ctx, dice:str):
         if nombre_des <= 0 or nombre_faces <= 0 :
             raise ValueError
         
-        if nombre_des >= 1000:
+        if nombre_des >= 100:
             await ctx.respond('Sa va prendre 5 seconde a cause de la taille du message')
             await asyncio.sleep(5)
         
