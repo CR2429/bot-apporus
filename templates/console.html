@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console Linux</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <style>
+        body { background-color: #1e1e1e; color: #fff; font-family: monospace; padding: 20px; }
+        .console-container { 
+            background: black; 
+            color: white; 
+            padding: 15px; 
+            border-radius: 5px; 
+            height: 500px; 
+            overflow-y: auto; 
+            font-size: 14px;
+        }
+        input { 
+            background: black; 
+            color: white; 
+            border: none; 
+            width: 100%; 
+            outline: none; 
+        }
+    </style>
+</head>
+<body class="container mt-5">
+
+    <h2 class="text-center text-light">Terminal Linux (Web)</h2>
+
+    <div class="text-center mb-3">
+        <button class="btn btn-secondary" onclick="scrollToBottom()">Retour en bas</button>
+    </div>
+
+    <div class="console-container" id="console-container">
+        <pre id="console">{{ history }}</pre>  <!-- ✅ Affichage immédiat de l'historique -->
+    </div>
+
+    <div class="mt-3">
+        <input type="text" id="command" placeholder="Entrer une commande et appuyer sur Entrée">
+    </div>
+
+    <script>
+        var socket = io();
+        var consoleElement = document.getElementById("console");
+        var consoleContainer = document.getElementById("console-container");
+        var commandInput = document.getElementById("command");
+
+        // Vérification du temps de connexion
+        function checkLoginTime() {
+            var loginTime = localStorage.getItem("loginTime");
+            var currentTime = Math.floor(Date.now() / 1000);
+            
+            if (!loginTime || (currentTime - parseInt(loginTime)) > 10) {
+                window.location.href = "/";  // Redirection si plus de 10 secondes
+            }
+        }
+
+        checkLoginTime();  // Vérifier immédiatement après chargement
+
+        // Défilement automatique vers le bas
+        function scrollToBottom() {
+            consoleContainer.scrollTop = consoleContainer.scrollHeight;
+        }
+
+        // Exécuter le défilement automatique après le chargement initial
+        window.onload = function() {
+            scrollToBottom();
+        };
+
+        // Réception des logs en temps réel
+        socket.on("log", function(data) {
+            consoleElement.innerText += data + "\n";
+            scrollToBottom();  // ✅ Défilement automatique après chaque mise à jour
+        });
+
+        commandInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                var cmd = commandInput.value;
+                socket.emit("send_command", cmd);
+                commandInput.value = "";
+                scrollToBottom();  // ✅ Défilement automatique après envoi d'une commande
+            }
+        });
+
+    </script>
+
+</body>
+</html>

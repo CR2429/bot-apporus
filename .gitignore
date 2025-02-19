@@ -5,3 +5,4 @@ commande/__pycache__
 commande/crystite/__pycache__
 __pycache__
 .env
+logs/
