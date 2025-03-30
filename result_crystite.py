@@ -12,7 +12,7 @@ async def run(ctx,dictionnaire) :
         await hovars(ctx,dictionnaire)
     else :
         message = ""
-        iterrence = dictionnaire["Type"].len()
+        iterrence = len(dictionnaire["Type"])
         for i in range(iterrence):
             #element
             Type = dictionnaire["Type"][i]
