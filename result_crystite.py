@@ -8,7 +8,7 @@ import pandas as pd
 
 async def run(ctx,dictionnaire) :  
     # utiliser la bonne methode celon l'utilisateur
-    if ctx.author.id == 308569466340376576 :
+    if ctx.author.id == 0 :
         await hovars(ctx,dictionnaire)
     else :
         message = ""
@@ -28,17 +28,17 @@ async def run(ctx,dictionnaire) :
             #messsage
             message = message + f"- {Type} - {Armure} => {Stats_principale}, +{Valeur_stat_2} {Type_stat_2}, +{Valeur_stat_3} {Type_stat_3}, {Exaltation} exaltation, {Bonus}\n"
             
-            #creation du fichier
-            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
-            file_path = f"crystite_{timestamp}.txt"
-            with open(file_path, "w", encoding="utf-8") as file:
-                file.write(message)
-            #envoyer le fichier
-            await ctx.send(file=discord.File(file_path))
-            
-            #suppression du fichier apres quelque secondes (au cas ou sa prendr du temps a envoyer le fichier)
-            time.sleep(10)
-            os.remove(file_path)
+        #creation du fichier
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+        file_path = f"crystite_{timestamp}.txt"
+        with open(file_path, "w", encoding="utf-8") as file:
+            file.write(message)
+        #envoyer le fichier
+        await ctx.send(file=discord.File(file_path))
+        
+        #suppression du fichier apres quelque secondes (au cas ou sa prendr du temps a envoyer le fichier)
+        time.sleep(10)
+        os.remove(file_path)
             
 
 async def hovars(ctx, dictionnaire) :
